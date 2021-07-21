@@ -1,0 +1,42 @@
+def exponent(base, exp):
+	constant = base
+	if exp != 0:
+		for i in range(exp - 1):
+			base *= constant
+	else:
+		base = 1
+	return base
+
+def standardise(base, num, **map): #converts a number of a given base to base 10 making use of Σb^{n}x=d
+	n = 0
+	ls = []
+	pos = 0
+	if "size" not in list(map): # the "size" variable alows for bases higher than 10 to be represented in base 10
+		size = 1
+	else:
+		size = map["size"]
+	while pos <= len(str(num)) - 1:
+		try:
+			x = int(str(num)[::-1][pos:pos+size][::-1])
+		except ValueError:
+			x = map[str(num)[::-1][pos:pos+size][::-1]]
+		ls.append(exponent(base, n)*x)
+		pos += size
+		n += 1
+	return sum(ls)
+
+def conversion(fbase, tbase, num, **map): #converts between bases
+	ls = []
+	num = standardise(fbase, num, **map)
+	count = 0
+	while True:
+		if num - exponent(tbase, count) < 0:
+			count -= 1
+			break
+		else:
+			count += 1
+	while count >= 0:
+		ls.append(int(num/exponent(tbase, count)))
+		num = num%exponent(tbase, count)
+		count -= 1
+	return ls
