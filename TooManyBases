@@ -1,11 +1,14 @@
 def exponent(base, exp):
-	constant = base
-	if exp != 0:
-		for i in range(exp - 1):
-			base *= constant
-	else:
-		base = 1
-	return base
+    if exp != 0:
+        prod = 1
+        for i in range(abs(exp)):
+            prod *= base
+        if exp > 0:
+            return prod
+        else:
+            return 1 / prod
+    else:
+        return 1
 
 def standardise(base, num, **map): #converts a number of a given base to base 10 making use of Σb^{n}x=d
 	n = 0
